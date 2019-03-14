@@ -1,9 +1,9 @@
 /*
-CS 657 PA1
+CS 657 PA2
 
 Author: 
 David Gabriel
-2-21-19
+3-10-19
 
 This program is an extremely minimalist database management system, 
 according to the programming assignment instructions. It lacks many 
@@ -332,6 +332,23 @@ int main()
 			//extract table name;
 			//std:cout << table_name << std::endl;
 			read_table(table_name);
+		}
+
+		if(std::regex_match (line, std::regex("(insert into)(.*)(values)(.*)(;)")))
+		{
+			std::string table_name = line.erase(0, 14);
+			std::string::size_type semicolon = line.find(";");
+			//extract 
+			std::string::size_type values = line.find("values");
+			std::string val_str = line.substr(values+4,(semicolon-1));
+			//semicolon = val_str.find(";");
+			//schema = schema.erase(semicolon,1);
+			//extract table name
+                        //add = table_name.find("ADD");
+			//semicolon = table_name.find(";");
+                        //table_name = table_name.erase(add+1, semicolon-add+2);
+			//add_table(table_name, schema);
+			std::cout << values << std::endl;
 		}
 
 		//exit switch
