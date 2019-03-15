@@ -150,7 +150,7 @@ int mktable(std::string table_name, std::string schema)
 	std::cout << "-- Table " << table_name << " created."  << std::endl;
 	std::ofstream myfile;
 	myfile.open (table_path);
-	myfile << schema;
+	myfile << schema << "\n";
 	myfile.close();
 	}
 	return 1;
@@ -184,11 +184,13 @@ int add_table(std::string table_name, std::string schema)
 
 	//string format
 	std::string table_path = use_path_complete_str + "/" + table_name;
-
+	schema.append("\n");
+	
 	//write schema to file
 	std::ofstream myfile;
 	myfile.open (table_path);
 	myfile << schema;
+	myfile << "\n";
       	myfile.close();	
 
 return 1;
@@ -252,9 +254,12 @@ int insert_table(std::string table_name, std::string line)
 
 	//write to file
 	std::ofstream myfile;
-	myfile.open (table_path);
+	myfile.open (table_path,std::ios_base::app);
 	myfile << line;
-      	myfile.close();	
+	myfile << "\n";
+      	myfile.close();
+
+	printf("end of insert\n");	
 
 return 1;
 /*
@@ -277,7 +282,13 @@ int main()
 		//interactive shell sdtio
 		std::string line;
 		std::cout << "dave-sql> ";
-		getline (std::cin, line);
+		getline (std::cin, line,';');
+		std::size_t found = line.find('\n');
+		if(found!= std::string::npos)
+		{
+			line.erase(found, 1);
+		}
+		line.append(";");
 		std::string result;
 
 
@@ -376,7 +387,7 @@ int main()
 		}
 
 		//exit switch
-		if(line == "exit"){return 0;}
+		if(line == "exit;"){return 0;}
 		line.clear();
 	}
 }
