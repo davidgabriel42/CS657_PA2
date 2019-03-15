@@ -243,6 +243,30 @@ int read_table(std::string table_name)
 return 0;
 }
 
+
+int insert_table(std::string table_name, std::string line)
+{
+
+	//string format
+	std::string table_path = use_path_complete_str + "/" + table_name;
+
+	//write to file
+	std::ofstream myfile;
+	myfile.open (table_path);
+	myfile << line;
+      	myfile.close();	
+
+return 1;
+/*
+	myfile << "This is the first cell in the first column.\n";
+	myfile << "a,b,c,\n";
+	myfile << "c,s,v,\n";
+	myfile << "1,2,3.456\n";
+*/
+
+}
+
+
 //program entry
 int main()
 {
@@ -336,19 +360,19 @@ int main()
 
 		if(std::regex_match (line, std::regex("(insert into)(.*)(values)(.*)(;)")))
 		{
-			std::string table_name = line.erase(0, 14);
-			std::string::size_type semicolon = line.find(";");
-			//extract 
-			std::string::size_type values = line.find("values");
-			std::string val_str = line.substr(values+4,(semicolon-1));
-			//semicolon = val_str.find(";");
-			//schema = schema.erase(semicolon,1);
-			//extract table name
-                        //add = table_name.find("ADD");
-			//semicolon = table_name.find(";");
-                        //table_name = table_name.erase(add+1, semicolon-add+2);
-			//add_table(table_name, schema);
-			std::cout << values << std::endl;
+			//extract tokens
+			line = line.erase(0,27);
+			line = line.erase(line.length()-2, line.length());
+
+			stringstream s(line);
+			string word;
+
+			while( s >> word)
+				{
+				std::cout<<word<<std::endl;
+				printf("\n");
+				}
+			insert_table("Product" , line);
 		}
 
 		//exit switch
